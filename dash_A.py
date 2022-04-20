@@ -99,12 +99,12 @@ diff_volatilité = volatilité_DATA.Close[-1] - volatilité_DATA.Close[-2]
 r_volatilité = diff_volatilité/volatilité_DATA.Close[-2]
 b4.metric("CBOE Volatility Index (VIX)", f"{volatilité_DATA.Close[-1] :.2f}", f"{diff_volatilité:.2} ({100*r_volatilité :.2f}%)")
 
-# Block 4 : Deuxième élément """VIX"""
-volatilité = yf.Ticker('^VIX') # Obtenir les données du ticker 
+# Block 4 : Deuxième élément """ACWI"""
+volatilité = yf.Ticker('ACWI') # Obtenir les données du ticker 
 volatilité_DATA = volatilité.history(period='5d')
-diff_volatilité = volatilité_DATA.Close[-2] - volatilité_DATA.Close[-3]
+diff_volatilité = volatilité_DATA.Close[-1] - volatilité_DATA.Close[-2]
 r_volatilité = diff_volatilité/volatilité_DATA.Close[-3]
-b4.metric("(VIX) Séance précédente", f"{volatilité_DATA.Close[-2] :.2f}", f"{diff_volatilité:.2} ({100*r_volatilité :.2f}%)")
+b4.metric("Ishare MSCI ACWI ETF", f"{volatilité_DATA.Close[-1] :.2f}", f"{diff_volatilité:.2} ({100*r_volatilité :.2f}%)")
 
 # Éléments de la troième rangé """ Precious Metals Stocks (row 3)
 s1, s2, s3, s4 = st.columns(4)
@@ -145,9 +145,11 @@ st.write('______')
 # Inscription de la date et heure du rapport dashboard
 date = st.sidebar.date_input('Données en date du :', datetime.date.today())
 
+
 heure = datetime.datetime.now()
 #heure_actuelle = heure.strftime("%H:%M:%S")
-st.sidebar.time_input('Heure actuelle:', heure)
+st.sidebar.time_input('Heure des informations actuelles :', heure)
+
 
 #st.write(date,text = 'green')  
 #st.write (time, text ='green')
@@ -156,7 +158,7 @@ st.sidebar.time_input('Heure actuelle:', heure)
 
 ticker_list1 = ['AMZN', 'MSFT', 'WMT','SHOP.TO', 'TD.TO', 'SAP.TO' ]
 tickerSymbol1 = st.sidebar.selectbox('Porte feuille # 1 : Choisir une entreprise :', ticker_list1) # Sélection ticker symbol
-tickerData1 = yf.Ticker(tickerSymbol1) # Get ticker data
+tickerData1 = yf.Ticker(tickerSymbol1) # # Obtenir les données du ticker
 tickerDf1 = tickerData1.history(period='max') # Obtenir l'hitorique des cours pour ce ticker
 entreprise1 = tickerData1.info["shortName"]
 
@@ -191,7 +193,7 @@ st.markdown('#####')
 
 # Cours de l'entreprise illustré sur un choix de différentes périodes
 selection = st_btn_select(('5 jours', '1 mois', '6 mois', '1 an', '3 ans', '5 ans', '10 ans'))
-st.write(f" ### Tableau comparatif avec les entreprises :\n ##### - {entreprise2.title()} \n ##### - {entreprise3.title()}, \n ##### - {entreprise4.title()}")
+st.write(f" ### Tableau comparatif avec les entreprises :\n ##### - {entreprise2.title()} \n ##### - {entreprise3.title()} \n ##### - {entreprise4.title()}")
 
 # Figure pour illustrer 4 axes
 fig1, ax = plt.subplots(2,2,figsize = (24, 16), dpi = 400,facecolor ='#F5F5DC')
@@ -204,28 +206,28 @@ ax4 = ax[1,1] # Localisation graphique 4
 
 # Configuration et attributs du premier graphique illustré
 ax1.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large',) # Information de l'axe des x (Label)
-ax1.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large') # Information de l'axe des y (Label)
+ax1.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')    # Information de l'axe des y (Label)
 ax1.set_title (tickerSymbol1,fontsize='xx-large',color ='blue')      # Titre du graphique illustré ( Ticker symbol) )
-                          # Attributs de la légende
+ax1.legend (facecolor='k', labelcolor='w')                           # Attributs de la légende
 ax1.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du deuxième graphique illustré
 ax2.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
-ax2.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
+ax2.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax2.set_title (tickerSymbol2,fontsize='xx-large',color ='blue')
 ax2.legend (facecolor='k', labelcolor='w')
 ax2.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du troisième graphique illustré
 ax3.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
-ax3.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
+ax3.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax3.set_title (tickerSymbol3,fontsize='xx-large',color ='blue')
 ax3.legend (facecolor='k', labelcolor='w')
 ax3.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du quatrième graphique illustré
 ax4.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
-ax4.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
+ax4.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax4.set_title (tickerSymbol4,fontsize='xx-large',color ='blue')
 ax4.legend (facecolor='k', labelcolor='w')
 ax4.grid(color='grey', linestyle='--', linewidth=0.5)
@@ -234,49 +236,49 @@ ax4.grid(color='grey', linestyle='--', linewidth=0.5)
 # Section de la sélection de la période à afficher des graphiques
 # Fonctions pour déterminer le choix de la période affichée
 if selection == '5 jours':
-    ax1.plot(tickerDf1.Close[-5:-1], color = 'red', label = selection)
-    ax2.plot(tickerDf2.Close[-5:-1], color ='green', label = selection)
+    ax1.plot(tickerDf1.Close[-5:-1], color = 'red',  label = selection)
+    ax2.plot(tickerDf2.Close[-5:-1], color = 'green',label = selection)
     ax3.plot(tickerDf3.Close[-5:-1], color = 'cyan', label = selection) 
     ax4.plot(tickerDf4.Close[-5:-1], color = 'blue', label = selection)
     
 elif selection == '1 mois':
-    ax1.plot(tickerDf1.Close[-30:-1],color ='blue', label = selection)
+    ax1.plot(tickerDf1.Close[-30:-1], color = 'blue', label = selection)
     ax2.plot(tickerDf2.Close[-30:-1], color = 'blue', label = selection)
-    ax3.plot(tickerDf3.Close[-30:-1], color ='green', label = selection)
-    ax4.plot(tickerDf4.Close[-30:-1], color = 'black', label = selection)
+    ax3.plot(tickerDf3.Close[-30:-1], color = 'green',label = selection)
+    ax4.plot(tickerDf4.Close[-30:-1], color = 'black',label = selection)
 
 elif selection == '6 mois':
     ax1.plot(tickerDf1.Close[-180:-1], color = 'green', label = selection)
     ax2.plot(tickerDf2.Close[-180:-1], color = 'black', label = selection)
-    ax3.plot(tickerDf3.Close[-180:-1], color = 'red', label = selection)
-    ax4.plot(tickerDf4.Close[-180:-1], color = 'blue', label = selection)
+    ax3.plot(tickerDf3.Close[-180:-1], color = 'red',   label = selection)
+    ax4.plot(tickerDf4.Close[-180:-1], color = 'blue',  label = selection)
 
 
 elif selection == '1 an':
-    ax1.plot(tickerDf1.Close[-22:-1], color = 'cyan', label = selection)
-    ax2.plot(tickerDf2.Close[-22:-1], color = 'black', label = selection)
-    ax3.plot(tickerDf3.Close[-22:-1], color = 'blue', label = selection)
-    ax4.plot(tickerDf4.Close[-22:-1], color = 'red', label = selection)
+    ax1.plot(tickerDf1.Close[-252:-1], color = 'cyan',  label = selection)
+    ax2.plot(tickerDf2.Close[-252:-1], color = 'black', label = selection)
+    ax3.plot(tickerDf3.Close[-252:-1], color = 'blue',  label = selection)
+    ax4.plot(tickerDf4.Close[-252:-1], color = 'red',   label = selection)
 
 
 elif selection == '3 ans':
-    ax1.plot(tickerDf1.Close[-3*252:-1], color = 'red', label = selection)
+    ax1.plot(tickerDf1.Close[-3*252:-1], color = 'red',  label = selection)
     ax2.plot(tickerDf2.Close[-3*252:-1], color = 'cyan', label = selection)
-    ax3.plot(tickerDf3.Close[-3*252:-1], color = 'black', label = selection)
+    ax3.plot(tickerDf3.Close[-3*252:-1], color = 'black',label = selection)
     ax4.plot(tickerDf4.Close[-3*252:-1], color = 'blue', label = selection)
 
 elif selection == '5 ans':
     ax1.plot(tickerDf1.Close[-5*252:-1], color = 'cyan', label = selection)
-    ax2.plot(tickerDf2.Close[-5*252:-1], color = 'red', label = selection)
-    ax3.plot(tickerDf3.Close[-5*252:-1], color = 'black', label = selection)
+    ax2.plot(tickerDf2.Close[-5*252:-1], color = 'red',  label = selection)
+    ax3.plot(tickerDf3.Close[-5*252:-1], color = 'black',label = selection)
     ax4.plot(tickerDf4.Close[-5*252:-1], color = 'blue', label = selection)
 
 
 elif selection == '10 ans':
-    ax1.plot(tickerDf1.Close[-10*252:-1], color = 'green', label = selection)
-    ax2.plot(tickerDf2.Close[-10*252:-1], color = 'cyan', label = selection)
-    ax3.plot(tickerDf3.Close[-10*252:-1], color = '#0000ff', label = selection)
-    ax4.plot(tickerDf4.Close[-10*252:-1], color = 'red', label = selection)
+    ax1.plot(tickerDf1.Close[-10*252:-1], color = 'green',  label = selection)
+    ax2.plot(tickerDf2.Close[-10*252:-1], color = 'cyan',   label = selection)
+    ax3.plot(tickerDf3.Close[-10*252:-1], color = '#0000ff',label = selection)
+    ax4.plot(tickerDf4.Close[-10*252:-1], color = 'red',    label = selection)
 
 
 # Afficher la légende
@@ -290,7 +292,7 @@ st.write("_______")
 
  # Ici on va dessiner les courbes et autres attributs sur la figure des 4 graphiques affichés (axes)  
 
-fig1.autofmt_xdate(rotation=45 ) # ici impossible d'appliquer une couleur ?? txtcolor = '#0000ff'
+fig1.autofmt_xdate(rotation=45 ) # ici les dates sur les axes s'ajustent d'une facon automatique
 
 st.pyplot(fig1)
 
