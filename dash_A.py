@@ -202,7 +202,7 @@ st.write(f" ### Tableau comparatif avec les entreprises :\n ##### - {entreprise2
 
 # Figure pour illustrer 4 axes
 fig1, ax = plt.subplots(2,2,figsize = (24, 16), dpi = 400,facecolor ='#F5F5DC')
-fig1.add_axes(start_date =  datetime.date(2000, 1, 1), end_date =  datetime.date.today(),color ='green') # ?????
+
 
 plt.close('all')                          # espacement entre les axes
 plt.tight_layout(pad=1,w_pad=1, h_pad=1)  # ici je ne comprend pas, les arguments ne change rien ??
