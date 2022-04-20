@@ -26,23 +26,22 @@ with a1:
    
 # Deuxième élément du tableau
 SP500 = yf.Ticker('^GSPC') # Obtenir le ticker data
-SP500_DATA = SP500.history(period='1d', interval = "1m")
-SP500_DATA2 = SP500.history(period='5d')
-r_sp500 = (SP500_DATA2.Close[-1] - SP500_DATA2.Close[-2])/SP500_DATA2.Close[-2]
+SP500_DATA = SP500.history(period='5d')
+r_sp500 = (SP500_DATA.Close[-1] - SP500_DATA.Close[-2])/SP500_DATA.Close[-2]
 a2.metric("S&P 500", f"{SP500_DATA.Close[-1] :,.0f}", f"{100*r_sp500:.2f} %")
+
+
 
 # Troisième élément du tableau
 nasdaq = yf.Ticker('^IXIC') # Obtenir le ticker data
-nasdaq_DATA = nasdaq.history(period='5d', interval = "1m")
-nasdaq_DATA2 = nasdaq.history(period='5d', start=start_date, end=end_date)
-r_nasdaq = (nasdaq_DATA2.Close[-1] - nasdaq_DATA2.Close[-2])/nasdaq_DATA2.Close[-2]
+nasdaq_DATA = nasdaq.history(period='5d')
+r_nasdaq = (nasdaq_DATA.Close[-1] - nasdaq_DATA.Close[-2])/nasdaq_DATA.Close[-2]
 a3.metric("NASDAQ Composite", f"{nasdaq_DATA.Close[-1] :,.0f}", f"{100*r_nasdaq:.2f} %")
 
 # Quatrième élément du tableau
 SP_TSX = yf.Ticker('^GSPTSE') # Obtenir le ticker data
-SP_TSX_DATA = SP_TSX.history(period='5d', interval = "1m")
-SP_TSX_DATA2 = SP_TSX.history(period='5d', start=start_date, end=end_date)
-r_sp_tsx = (SP_TSX_DATA2.Close[-1] - SP_TSX_DATA2.Close[-2])/SP_TSX_DATA2.Close[-2]
+SP_TSX_DATA = SP_TSX.history(period='5d')
+r_sp_tsx = (SP_TSX_DATA.Close[-1] - SP_TSX_DATA.Close[-2])/SP_TSX_DATA.Close[-2]
 a4.metric("S&P/TSX", f"{SP_TSX_DATA.Close[-1] :,.0f}", f"{100*r_sp_tsx:.2f} %")
 
  
@@ -51,37 +50,34 @@ b1, b2, b3, b4 = st.columns(4)
 
 # Block 1 : Premier élément """Cad/USD"""
 cad_usd = yf.Ticker('CADUSD=X') # Get ticker data
-cad_usd_DATA = cad_usd.history(period='5d', interval = "1m")
-cad_usd_DATA2 = cad_usd.history(period='5d', start=start_date, end=end_date)
-r_cad_usd = (cad_usd_DATA2.Close[-1] - cad_usd_DATA2.Close[-2])/cad_usd_DATA2.Close[-2]
+cad_usd_DATA = cad_usd.history(period='5d')
+r_cad_usd = (cad_usd_DATA.Close[-1] - cad_usd_DATA.Open[-1])/cad_usd_DATA.Open[-1]
 b1.metric("CAD/USD", f"{cad_usd_DATA.Close[-1] :.3f}", f"{100*r_cad_usd :.2f} %")
+
 
 # Block 1 : Deuxième élément """USD/EUR"""
 usd_eur = yf.Ticker('EUR=X') # Obtenir le ticker data 
-usd_eur_DATA = usd_eur.history(period='5d', interval = "1m")
-usd_eur_DATA2 = usd_eur.history(period='5d', start=start_date, end=end_date)
-r_usd_eur = (usd_eur_DATA2.Close[-1] - usd_eur_DATA2.Close[-2])/usd_eur_DATA2.Close[-2]
+usd_eur_DATA = usd_eur.history(period='5d')
+r_usd_eur = (usd_eur_DATA.Close[-1] - usd_eur_DATA.Open[-1])/usd_eur_DATA.Open[-1]
 b1.metric("USD/EUR", f"{usd_eur_DATA.Close[-1] :.3f}", f"{100*r_usd_eur :.2f} %")
 
  # Block 2 : Premier élément """WTI"""
 wti = yf.Ticker('CL=F') # Obtenir le ticker data
-wti_DATA = wti.history(period='5d', interval = "1m")
-wti_DATA2 = wti.history(period='5d', start=start_date, end=end_date)
-diff_wti = wti_DATA2.Close[-1] - wti_DATA2.Close[-2]
-r_wti = diff_wti/wti_DATA2.Close[-2]
+wti_DATA = wti.history(period='5d')
+diff_wti = wti_DATA.Close[-1] - wti_DATA.Close[-2]
+r_wti = diff_wti/wti_DATA.Close[-2]
 b2.metric("Pétrole (WTI)", f"{wti_DATA.Close[-1] :.2f}", f"{diff_wti:.2} ({100*r_wti :.2f}%)")
 
 # Block 2 : Deuxième élément """Natural Gas"""
 natural_gas = yf.Ticker('NG=F') # Obtenir le ticker data 
-natural_gas_DATA = natural_gas.history(period='5d', interval = "1m")
-natural_gas_DATA2 = natural_gas.history(period='5d', start=start_date, end=end_date)
-diff_natural_gas = natural_gas_DATA2.Close[-1] - natural_gas_DATA2.Close[-2]
-r_nga = diff_natural_gas/natural_gas_DATA2.Close[-2]
+natural_gas_DATA = natural_gas.history(period='5d')
+diff_natural_gas = natural_gas_DATA.Close[-1] - natural_gas_DATA.Close[-2]
+r_nga = diff_natural_gas/natural_gas_DATA.Close[-2]
 b2.metric("Natural Gas (NGA)", f"{natural_gas_DATA.Close[-1] :.2f}", f"{diff_natural_gas:.2} ({100*r_nga :.2f}%)")
 
 # Block 3 : Premier élément """Taux directeur USA 5 ans"""
 us5y = yf.Ticker('^FVX') # Obtenir le ticker data
-us5y_DATA = us5y.history(period='1d', start=start_date, end=end_date)
+us5y_DATA = us5y.history(period='5d')
 diff_us5y = us5y_DATA.Close[-1] - us5y_DATA.Close[-2]
 r_us5y = diff_us5y/us5y_DATA.Close[-2]
 b3.metric("Taux US   5 ans", f"{us5y_DATA.Close[-1] :.3f}", f"{diff_us5y:.2} ({100*r_us5y :.2f}%)")
@@ -89,7 +85,7 @@ b3.metric("Taux US   5 ans", f"{us5y_DATA.Close[-1] :.3f}", f"{diff_us5y:.2} ({1
 
 # Block 3 : Deuxième élément """Taux directeur USA 10 ans"""" 
 us10y = yf.Ticker('^TNX') # Obtenir le ticker data
-us10y_DATA = us10y.history(period='1d', start=start_date, end=end_date)
+us10y_DATA = us10y.history(period='5d')
 diff_us10y = us10y_DATA.Close[-1] - us10y_DATA.Close[-2]
 r_us10y = diff_us10y/us10y_DATA.Close[-2]
 b3.metric("Taux US   10 ans", f"{us10y_DATA.Close[-1] :.3f}", f"{diff_us10y:.2} ({100*r_us10y :.2f}%)")
@@ -98,18 +94,16 @@ b3.metric("Taux US   10 ans", f"{us10y_DATA.Close[-1] :.3f}", f"{diff_us10y:.2} 
 
 # Block  4 : Premir élément volatilité """VIX"""
 volatilité = yf.Ticker('^VIX') # Obtenir les données du ticker 
-volatilité_DATA = volatilité.history(period='5d', interval = "1m")
-volatilité_DATA2 = volatilité.history(period='1d', start=start_date, end=end_date)
-diff_volatilité = volatilité_DATA2.Close[-1] - volatilité_DATA2.Close[-2]
-r_volatilité = diff_volatilité/volatilité_DATA2.Close[-2]
+volatilité_DATA = volatilité.history(period='5d')
+diff_volatilité = volatilité_DATA.Close[-1] - volatilité_DATA.Close[-2]
+r_volatilité = diff_volatilité/volatilité_DATA.Close[-2]
 b4.metric("CBOE Volatility Index (VIX)", f"{volatilité_DATA.Close[-1] :.2f}", f"{diff_volatilité:.2} ({100*r_volatilité :.2f}%)")
 
 # Block 4 : Deuxième élément """VIX"""
 volatilité = yf.Ticker('^VIX') # Obtenir les données du ticker 
-volatilité_DATA = volatilité.history(period='5d', interval = "1m")
-volatilité_DATA2 = volatilité.history(period='1d', start=start_date, end=end_date)
-diff_volatilité = volatilité_DATA2.Close[-2] - volatilité_DATA2.Close[-3]
-r_volatilité = diff_volatilité/volatilité_DATA2.Close[-3]
+volatilité_DATA = volatilité.history(period='5d')
+diff_volatilité = volatilité_DATA.Close[-2] - volatilité_DATA.Close[-3]
+r_volatilité = diff_volatilité/volatilité_DATA.Close[-3]
 b4.metric("(VIX) Séance précédente", f"{volatilité_DATA.Close[-2] :.2f}", f"{diff_volatilité:.2} ({100*r_volatilité :.2f}%)")
 
 # Éléments de la troième rangé """ Precious Metals Stocks (row 3)
@@ -117,35 +111,31 @@ s1, s2, s3, s4 = st.columns(4)
 
 # Block 1 :  """Gold"""
 Or = yf.Ticker('GC=F') # Obtenir les données du ticker
-Or_DATA = Or.history(period='5d', interval = "1m")
-Or_DATA2 = Or.history(period='1d', start=start_date, end=end_date)
-diff_Or = Or_DATA2.Close[-1] - Or_DATA2.Close[-2]
-r_Or = diff_Or/Or_DATA2.Close[-2]
+Or_DATA = Or.history(period='5d')
+diff_Or = Or_DATA.Close[-1] - Or_DATA.Close[-2]
+r_Or = diff_Or/Or_DATA.Close[-2]
 s1.metric("Or", f"{Or_DATA.Close[-1] :.2f}", f"{diff_Or:.2} ({100*r_Or :.2f}%)")
 
 
 # Block 2 :  """Silver"""
 Silver = yf.Ticker('SI=F') # Obtenir les données du ticker
-Silver_DATA = Silver.history(period='5d', interval = "1m")
-Silver_DATA2 = Silver.history(period='1d', start=start_date, end=end_date)
-diff_Silver = Silver_DATA2.Close[-1] - Silver_DATA2.Close[-2]
-r_Silver = diff_Silver/Silver_DATA2.Close[-2]
+Silver_DATA = Silver.history(period='5d')
+diff_Silver = Silver_DATA.Close[-1] - Silver_DATA.Close[-2]
+r_Silver = diff_Silver/Silver_DATA.Close[-2]
 s2.metric("Silver", f"{Silver_DATA.Close[-1] :.2f}", f"{diff_Silver:.2} ({100*r_Silver :.2f}%)")
 
 # Block 3 : """Copper"""
 copper = yf.Ticker('HG=F') # Obtenir les données du ticker
-copper_DATA = copper.history(period='5d', interval = "1m")
-copper_DATA2 = copper.history(period='1d', start=start_date, end=end_date)
-diff_copper = copper_DATA2.Close[-1] - copper_DATA2.Close[-2]
-r_copper = diff_copper/copper_DATA2.Close[-2]
+copper_DATA = copper.history(period='5d')
+diff_copper = copper_DATA.Close[-1] - copper_DATA.Close[-2]
+r_copper = diff_copper/copper_DATA.Close[-2]
 s3.metric("Copper", f"{copper_DATA.Close[-1] :.2f}", f"{diff_copper:.2} ({100*r_copper :.2f}%)")
 
 # Block 4 """ Platinum"""
 Platinum = yf.Ticker('SI=F') # Obtenir les données du ticker
-Platinum_DATA = Platinum.history(period='5d', interval = "1m")
-Platinum_DATA2 = Platinum.history(period='1d', start=start_date, end=end_date)
-diff_Platinum = Platinum_DATA2.Close[-1] - Platinum_DATA2.Close[-2]
-r_Platinum = diff_Platinum/Platinum_DATA2.Close[-2]
+Platinum_DATA = Platinum.history(period='5d')
+diff_Platinum = Platinum_DATA.Close[-1] - Platinum_DATA.Close[-2]
+r_Platinum = diff_Platinum/Platinum_DATA.Close[-2]
 s4.metric("Platinum", f"{Platinum_DATA.Close[-1] :.2f}", f"{diff_Platinum:.2} ({100*r_Platinum:.2f}%)")
 
 st.write('______')
@@ -154,17 +144,20 @@ st.write('______')
 
 # Inscription de la date et heure du rapport dashboard
 date = st.sidebar.date_input('Données en date du :', datetime.date.today())
-time = st.sidebar.time_input('Heure :', datetime.time())
 
-st.write(date,text = 'green')  
-st.write (time, text ='green')
+heure = datetime.datetime.now()
+#heure_actuelle = heure.strftime("%H:%M:%S")
+st.sidebar.time_input('Heure actuelle:', heure)
+
+#st.write(date,text = 'green')  
+#st.write (time, text ='green')
 
 # Récupération des données (tickers data) (Création d'un portefeuille - Liste no 1)
 
 ticker_list1 = ['AMZN', 'MSFT', 'WMT','SHOP.TO', 'TD.TO', 'SAP.TO' ]
 tickerSymbol1 = st.sidebar.selectbox('Porte feuille # 1 : Choisir une entreprise :', ticker_list1) # Sélection ticker symbol
 tickerData1 = yf.Ticker(tickerSymbol1) # Get ticker data
-tickerDf1 = tickerData1.history(period='1d', start=start_date, end=end_date) # Obtenir l'hitorique des cours pour ce ticker
+tickerDf1 = tickerData1.history(period='max') # Obtenir l'hitorique des cours pour ce ticker
 entreprise1 = tickerData1.info["shortName"]
 
 # Récupération des données (tickers data) (Création d'un portefeuille-Liste no 2)
@@ -204,12 +197,6 @@ st.write(f" ### Tableau comparatif avec les entreprises :\n ##### - {entreprise2
 fig1, ax = plt.subplots(2,2,figsize = (24, 16), dpi = 400,facecolor ='#F5F5DC')
 
 
-plt.close('all')                          # espacement entre les axes
-plt.tight_layout(pad=1,w_pad=1, h_pad=1)  # ici je ne comprend pas, les arguments ne change rien ??
-plt.rcdefaults()                          # Récupérer le style par défault
-plt.grid('all')                            # J,ai plus de grid ???
-plt.legend ()                             # J'ai pas de légende (seulement un petit point noir ???)
-
 ax1 = ax[0,0] # Localisation graphique 1
 ax2 = ax[0,1] # Localisation graphique 2
 ax3 = ax[1,0] # Localisation graphique 3
@@ -219,74 +206,84 @@ ax4 = ax[1,1] # Localisation graphique 4
 ax1.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large',) # Information de l'axe des x (Label)
 ax1.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large') # Information de l'axe des y (Label)
 ax1.set_title (tickerSymbol1,fontsize='xx-large',color ='blue')      # Titre du graphique illustré ( Ticker symbol) )
-ax1.legend (facecolor='k', labelcolor='w')                           # Attributs de la légende
+                          # Attributs de la légende
+ax1.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du deuxième graphique illustré
 ax2.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax2.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
 ax2.set_title (tickerSymbol2,fontsize='xx-large',color ='blue')
 ax2.legend (facecolor='k', labelcolor='w')
+ax2.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du troisième graphique illustré
 ax3.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax3.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
 ax3.set_title (tickerSymbol3,fontsize='xx-large',color ='blue')
 ax3.legend (facecolor='k', labelcolor='w')
+ax3.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Configuration et attributs du quatrième graphique illustré
 ax4.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax4.set_ylabel ("Cours de l'action", color ='k',fontsize='xx-large')
 ax4.set_title (tickerSymbol4,fontsize='xx-large',color ='blue')
 ax4.legend (facecolor='k', labelcolor='w')
-
+ax4.grid(color='grey', linestyle='--', linewidth=0.5)
 
 
 # Section de la sélection de la période à afficher des graphiques
 # Fonctions pour déterminer le choix de la période affichée
 if selection == '5 jours':
-    ax1.plot(tickerDf1.Close[-5:-1], color = 'red')
-    ax2.plot(tickerDf2.Close[-5:-1], color ='green')
-    ax3.plot(tickerDf3.Close[-5:-1], color = 'cyan') 
-    ax4.plot(tickerDf4.Close[-5:-1], color = 'blue')
+    ax1.plot(tickerDf1.Close[-5:-1], color = 'red', label = selection)
+    ax2.plot(tickerDf2.Close[-5:-1], color ='green', label = selection)
+    ax3.plot(tickerDf3.Close[-5:-1], color = 'cyan', label = selection) 
+    ax4.plot(tickerDf4.Close[-5:-1], color = 'blue', label = selection)
     
 elif selection == '1 mois':
-    ax1.plot(tickerDf1.Close[-30:-1],color ='blue')
-    ax2.plot(tickerDf2.Close[-30:-1], color = 'blue')
-    ax3.plot(tickerDf3.Close[-30:-1], color ='green')
-    ax4.plot(tickerDf4.Close[-30:-1], color = 'black')
+    ax1.plot(tickerDf1.Close[-30:-1],color ='blue', label = selection)
+    ax2.plot(tickerDf2.Close[-30:-1], color = 'blue', label = selection)
+    ax3.plot(tickerDf3.Close[-30:-1], color ='green', label = selection)
+    ax4.plot(tickerDf4.Close[-30:-1], color = 'black', label = selection)
 
 elif selection == '6 mois':
-    ax1.plot(tickerDf1.Close[-180:-1], color = 'green')
-    ax2.plot(tickerDf2.Close[-180:-1], color = 'black')
-    ax3.plot(tickerDf3.Close[-180:-1], color = 'red')
-    ax4.plot(tickerDf4.Close[-180:-1], color = 'blue')
+    ax1.plot(tickerDf1.Close[-180:-1], color = 'green', label = selection)
+    ax2.plot(tickerDf2.Close[-180:-1], color = 'black', label = selection)
+    ax3.plot(tickerDf3.Close[-180:-1], color = 'red', label = selection)
+    ax4.plot(tickerDf4.Close[-180:-1], color = 'blue', label = selection)
 
 
 elif selection == '1 an':
-    ax1.plot(tickerDf1.Close[-22:-1], color = 'cyan')
-    ax2.plot(tickerDf2.Close[-22:-1], color = 'black')
-    ax3.plot(tickerDf3.Close[-22:-1], color = 'blue')
-    ax4.plot(tickerDf4.Close[-22:-1], color = 'red')
+    ax1.plot(tickerDf1.Close[-22:-1], color = 'cyan', label = selection)
+    ax2.plot(tickerDf2.Close[-22:-1], color = 'black', label = selection)
+    ax3.plot(tickerDf3.Close[-22:-1], color = 'blue', label = selection)
+    ax4.plot(tickerDf4.Close[-22:-1], color = 'red', label = selection)
 
 
 elif selection == '3 ans':
-    ax1.plot(tickerDf1.Close[-3*252:-1], color = 'red')
-    ax2.plot(tickerDf2.Close[-3*252:-1], color = 'cyan')
-    ax3.plot(tickerDf3.Close[-3*252:-1], color = 'black')
-    ax4.plot(tickerDf4.Close[-3*252:-1], color = 'blue')
+    ax1.plot(tickerDf1.Close[-3*252:-1], color = 'red', label = selection)
+    ax2.plot(tickerDf2.Close[-3*252:-1], color = 'cyan', label = selection)
+    ax3.plot(tickerDf3.Close[-3*252:-1], color = 'black', label = selection)
+    ax4.plot(tickerDf4.Close[-3*252:-1], color = 'blue', label = selection)
 
 elif selection == '5 ans':
-    ax1.plot(tickerDf1.Close[-5*252:-1], color = 'cyan')
-    ax2.plot(tickerDf2.Close[-5*252:-1], color = 'red')
-    ax3.plot(tickerDf3.Close[-5*252:-1], color = 'black')
-    ax4.plot(tickerDf4.Close[-5*252:-1], color = 'blue')
+    ax1.plot(tickerDf1.Close[-5*252:-1], color = 'cyan', label = selection)
+    ax2.plot(tickerDf2.Close[-5*252:-1], color = 'red', label = selection)
+    ax3.plot(tickerDf3.Close[-5*252:-1], color = 'black', label = selection)
+    ax4.plot(tickerDf4.Close[-5*252:-1], color = 'blue', label = selection)
 
 
 elif selection == '10 ans':
-    ax1.plot(tickerDf1.Close[-10*252:-1], color = 'green')
-    ax2.plot(tickerDf2.Close[-10*252:-1], color = 'cyan')
-    ax3.plot(tickerDf3.Close[-10*252:-1], color = '#0000ff')
-    ax4.plot(tickerDf4.Close[-10*252:-1], color = 'red')
+    ax1.plot(tickerDf1.Close[-10*252:-1], color = 'green', label = selection)
+    ax2.plot(tickerDf2.Close[-10*252:-1], color = 'cyan', label = selection)
+    ax3.plot(tickerDf3.Close[-10*252:-1], color = '#0000ff', label = selection)
+    ax4.plot(tickerDf4.Close[-10*252:-1], color = 'red', label = selection)
+
+
+# Afficher la légende
+ax1.legend (facecolor='k', labelcolor='w') 
+ax2.legend (facecolor='k', labelcolor='w')
+ax3.legend (facecolor='k', labelcolor='w')
+ax4.legend (facecolor='k', labelcolor='w')
 
 st.write("_______")
 
@@ -306,7 +303,7 @@ c1, c2, c3, c4 = st.columns(4) # création de 4 block dans la rangée
 
 diff_tickerDf1 = tickerDf1.Close[-1] - tickerDf1.Close[-2]
 r_tickerDf1 = diff_tickerDf1/tickerDf1.Close[-2]
-c1.metric(f"{tickerSymbol1}", f"{tickerDf1.Close[-1] :.2f}", f"{diff_tickerDf1:.3} ({100*r_tickerDf1 :.2f}%)")
+c1.metric(f"{tickerSymbol1}", f"{tickerDf1.Close[-1] :.2f}", f"{diff_tickerDf1:.2f} ({100*r_tickerDf1 :.2f}%)")
 
 sector= tickerData1.info["sector"] # Ici on va cercher le secteur de l'entreprise
 c1.metric('Secteur', sector)
@@ -324,10 +321,10 @@ CB1 = tickerData1.info["forwardPE"] # Ici on va chercher le ratio cours bénéfi
 c3.metric("C/B",  f'{CB1:.2f}' )
 
 marge = tickerData1.info["profitMargins"] # Ici on va chercher le Pourcentage de la marge brute
-c4.metric("Marge brute ", round(marge*100, 2),'%' )
+c4.metric("Marge brute ", f"{round(marge*100, 2)}%" )
 
 ROA = tickerData1.info["returnOnAssets"] # Ici on va chercher le pourcentage du "Return Of Asset"
-c4.metric("ROA ", round(ROA*100, 2),'%' )
+c4.metric("ROA ", f"{round(ROA*100, 2)}%" )
 
 st.write('______')
 
@@ -349,7 +346,7 @@ st.write(" ### Détenteurs institutionnels majeurs :")
 
 tickerData1.institutional_holders # Ici les principaux détenteurs de l'actionnariat de l'enteprise
 
-tickerData1.info # Information disponible sur Yohoo finance
+#tickerData1.info # Information disponible sur Yohoo finance
 
 st.write("_______")
 
