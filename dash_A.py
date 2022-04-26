@@ -211,21 +211,21 @@ ax1.set_title (tickerSymbol1,fontsize='xx-large',color ='blue')      # Titre du 
 ax1.legend (facecolor='k', labelcolor='w')                           # Attributs de la légende
 ax1.grid(color='grey', linestyle='--', linewidth=0.5)
 
-# Configuration et attributs du deuxième graphique illustré
+# Configuration et attributs du deuxième graphique illustré          # Idem ax1
 ax2.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax2.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax2.set_title (tickerSymbol2,fontsize='xx-large',color ='blue')
 ax2.legend (facecolor='k', labelcolor='w')
 ax2.grid(color='grey', linestyle='--', linewidth=0.5)
 
-# Configuration et attributs du troisième graphique illustré
+# Configuration et attributs du troisième graphique illustré        # Idem ax1
 ax3.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax3.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax3.set_title (tickerSymbol3,fontsize='xx-large',color ='blue')
-ax3.legend (facecolor='k', labelcolor='w')
+ax3.legend (facecolor='k', labelcolor='w', fontsize='larger')
 ax3.grid(color='grey', linestyle='--', linewidth=0.5)
 
-# Configuration et attributs du quatrième graphique illustré
+# Configuration et attributs du quatrième graphique illustré        # Idem ax1
 ax4.set_xlabel ('Périodes (Times)', color ='k',fontsize='xx-large')
 ax4.set_ylabel ("Cours du Titre", color ='k',fontsize='xx-large')
 ax4.set_title (tickerSymbol4,fontsize='xx-large',color ='blue')
@@ -298,59 +298,67 @@ st.pyplot(fig1)
 
 st.write("_______")
 
-# nouvelle section dans le dashbord concernant l'enteprise concernée
+# Nouvelle section dans le dashbord concernant l'enteprise concernée
 st.write(f"### Information financière de l'entreprise : {entreprise1.title()}")
 
-c1, c2, c3, c4 = st.columns(4) # création de 4 block dans la rangée
+c1, c2, c3, c4, c5 = st.columns(5) # création de 5 block dans la rangée
 
 diff_tickerDf1 = tickerDf1.Close[-1] - tickerDf1.Close[-2]
 r_tickerDf1 = diff_tickerDf1/tickerDf1.Close[-2]
-c1.metric(f"{tickerSymbol1}", f"{tickerDf1.Close[-1] :.2f}", f"{diff_tickerDf1:.2f} ({100*r_tickerDf1 :.2f}%)")
+c1.metric(f"{tickerSymbol1}", f"{tickerDf1.Close[-1] :.2f} $", f"{diff_tickerDf1:.2f} ({100*r_tickerDf1 :.2f}%)")
 
 sector= tickerData1.info["sector"] # Ici on va cercher le secteur de l'entreprise
 c1.metric('Secteur', sector)
 
+Day_High = tickerData1.info ["dayHigh"]
+Day_Low  = tickerData1.info ["dayLow"]
+c2.metric ("Day High", f"{Day_High:.2f} $")
+c2.metric ("Day Low", f"{Day_Low:.2f} $")
+
 recommandation1 = tickerData1.info["recommendationKey"]  # Ici on va chercher la recommandation des analystes
-c2.metric("Recommandation", recommandation1.title())
+c3.metric("Recommandation", recommandation1.title())
 
 Prix_cible = tickerData1.info["targetMeanPrice"] # Ici on va chercher le cours cible
-c2.metric("Prix cible ", f'{Prix_cible:.2f}')
+c3.metric("Prix cible ", f'{Prix_cible:.2f} $')
 
 Beta = tickerData1.info["beta"] # Ici on va chercher le beta de l'entreprise
-c3.metric("beta ", round(Beta,2))
+c4.metric("beta ", round(Beta,2))
 
 CB1 = tickerData1.info["forwardPE"] # Ici on va chercher le ratio cours bénéfice
-c3.metric("C/B",  f'{CB1:.2f}' )
+c4.metric("C/B",  f'{CB1:.2f}' )
 
 marge = tickerData1.info["profitMargins"] # Ici on va chercher le Pourcentage de la marge brute
-c4.metric("Marge brute ", f"{round(marge*100, 2)}%" )
+c5.metric("Marge brute ", f"{round(marge*100, 2)}%" )
 
 ROA = tickerData1.info["returnOnAssets"] # Ici on va chercher le pourcentage du "Return Of Asset"
-c4.metric("ROA ", f"{round(ROA*100, 2)}%" )
+c5.metric("ROA ", f"{round(ROA*100, 2)}%" )
+
 
 st.write('______')
 
 # Nouvelle section
 # Description et information à propos de l'entreprise
 
-string_logo = '<img src=%s>' % tickerData1.info['logo_url'] # Ici on affiche de logo de l'entreprise
+string_logo = '<img src=%s>' % tickerData1.info['logo_url'] # Ici on affiche le logo de l'entreprise principale
 
-st.markdown(string_logo, unsafe_allow_html=True)
+st.markdown(string_logo, unsafe_allow_html=True) 
 
-tickerData1.info["longBusinessSummary"] # Ici on affiche un sommaire (description) de l'entreprise
+st.write(" ### Description sommaire de l'entreprise")
+tickerData1.info["longBusinessSummary"]                    # Ici on affiche un sommaire (description) de l'entreprise
 
 st.write("_______")
 
 # Block
-# Description des détenteurs de l'actionnariats
+# Description des détenteurs principaux de l'actionnariats
 
 st.write(" ### Détenteurs institutionnels majeurs :")
 
 tickerData1.institutional_holders # Ici les principaux détenteurs de l'actionnariat de l'enteprise
 
-#tickerData1.info # Information disponible sur Yohoo finance
-
 st.write("_______")
+
+# (Optionel) pour autre information général sur Yahoo finance employer  tickerData1.info 
+# tickerData1.info
 
 
 # Notes personnelles pour moi vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
