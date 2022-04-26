@@ -180,7 +180,7 @@ st.sidebar.time_input('Heure des informations actuelles :', heure)
 # Récupération des données (tickers data) (Création d'un portefeuille - Liste no 1)
 
 ticker_list1 = ['AMZN', 'MSFT', 'WMT','SHOP.TO', 'TD.TO', 'SAP.TO' ]
-tickerSymbol1 = st.sidebar.selectbox('Porte feuille # 1 : Choisir une entreprise :', ticker_list1) # Sélection ticker symbol
+tickerSymbol1 = st.sidebar.selectbox('Portefeuille # 1 : Choisir une entreprise :', ticker_list1) # Sélection ticker symbol
 tickerData1 = yf.Ticker(tickerSymbol1) # # Obtenir les données du ticker
 tickerDf1 = tickerData1.history(period='max') # Obtenir l'hitorique des cours pour ce ticker
 entreprise1 = tickerData1.info["shortName"]
@@ -188,7 +188,7 @@ entreprise1 = tickerData1.info["shortName"]
 # Récupération des données (tickers data) (Création d'un portefeuille-Liste no 2)
 
 ticker_list2 = ['INE.TO', 'BLX.TO','DOL.TO','CAS.TO','SU']
-tickerSymbol2 = st.sidebar.selectbox('Porte feuille # 2 : Choisir une entreprise :', ticker_list2) # Sélection du ticker symbol
+tickerSymbol2 = st.sidebar.selectbox('Portefeuille # 2 : Choisir une entreprise :', ticker_list2) # Sélection du ticker symbol
 tickerData2 = yf.Ticker(tickerSymbol2) # Obtenir les données du ticker 
 tickerDf2 = tickerData2.history(period='1d', start=start_date, end=end_date) # Obtenir l'hitorique des cours pour ce ticker
 entreprise2 = tickerData2.info["shortName"]
@@ -196,7 +196,7 @@ entreprise2 = tickerData2.info["shortName"]
 # Récupération des données (tickers data) (Création d'un portefeuille-Liste no 3)
 
 ticker_list3 = ['PYPL','TWTR','RFP.TO','TSLA']
-tickerSymbol3 = st.sidebar.selectbox('Porte feuille # 3 : Choisir une entreprise :', ticker_list3) # Sélection du ticker symbol
+tickerSymbol3 = st.sidebar.selectbox('Portefeuille # 3 : Choisir une entreprise :', ticker_list3) # Sélection du ticker symbol
 tickerData3 = yf.Ticker(tickerSymbol3) # Obtenir les données du ticker 
 tickerDf3 = tickerData3.history(period='1d', start=start_date, end=end_date) # Obtenir l'hitorique des cours pour ce ticker
 entreprise3 = tickerData3.info["shortName"]
@@ -204,7 +204,7 @@ entreprise3 = tickerData3.info["shortName"]
 # Récupération des données (tickers data) (Création d'un porte feuille-Liste no 4)
 
 ticker_list4 = ['MRU.TO', 'ATD.TO','RFP.TO']
-tickerSymbol4 = st.sidebar.selectbox('Porte feuille # 4 : Choisir une entreprise :', ticker_list4) # Selection du ticker symbol
+tickerSymbol4 = st.sidebar.selectbox('Portefeuille # 4 : Choisir une entreprise :', ticker_list4) # Selection du ticker symbol
 tickerData4 = yf.Ticker(tickerSymbol4) # Get ticker data
 tickerDf4 = tickerData4.history(period='1d', start=start_date, end=end_date) # Obtenir l'hitorique des cours pour ce ticker
 entreprise4 = tickerData4.info["shortName"]
@@ -366,7 +366,7 @@ string_logo = '<img src=%s>' % tickerData1.info['logo_url'] # Ici on affiche le 
 
 st.markdown(string_logo, unsafe_allow_html=True) 
 
-st.write(" ### Description sommaire de l'entreprise")
+st.write(" ##### Description sommaire de l'entreprise")
 tickerData1.info["longBusinessSummary"]                    # Ici on affiche un sommaire (description) de l'entreprise
 
 st.write("_______")
@@ -374,13 +374,13 @@ st.write("_______")
 # Block
 # Description des détenteurs principaux de l'actionnariats
 
-st.write(" ### Détenteurs institutionnels majeurs :")
+st.write(" ##### Détenteurs institutionnels majeurs :")
 
 tickerData1.institutional_holders # Ici les principaux détenteurs de l'actionnariat de l'enteprise
 st.write("_______")
 
-st.write(" ### Site Web :")
-tickerData1.info ["website"]
+st.write(" ##### Site Web :",tickerData1.info ["website"])
+
 
 st.write("_______")
 
