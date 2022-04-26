@@ -5,17 +5,44 @@ import matplotlib.pyplot as plt
 from st_btn_select import st_btn_select
 import numpy as np
 
-# """"""""""""""""""""""""""""""""""""""""""
+# """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 start_date =  datetime.date(2000, 1, 1)
 end_date =  datetime.date.today()
 
 # Configuration de la page (Page setting)
 st.set_page_config(layout="wide")
+
+st.write('______') # ligne pour éviter le floue d'affichage du haut  
  
 with open('style.css') as f:
 
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+st.markdown('<p class="font3"> Travail de session FIN30521 par Claude Fournier</p>', unsafe_allow_html=True) 
+
+st.markdown(""" <style>
+
+.font1 {font-size:35px ;
+        font-family: 'Cooper Black';
+        color: #FF9633;
+        text-align: center;
+        border: 3px solid green; }
+
+ .font2 {font-size:25px ;
+        font-family: 'Cooper Black';
+        color: gold;
+        text-align: center;
+        border: 3px solid blue;  }
+
+ .font3 {font-size:25px ;
+        font-family: 'Cooper Black';
+        color: lightskyblue;
+        text-align: center;
+        border: 3px solid black; }
+
+</style> """,
+
+unsafe_allow_html=True)   
  
 # Éléments de la première rangée du dashboard (Row A)
 a1, a2, a3, a4 = st.columns(4)
@@ -90,7 +117,6 @@ diff_us10y = us10y_DATA.Close[-1] - us10y_DATA.Close[-2]
 r_us10y = diff_us10y/us10y_DATA.Close[-2]
 b3.metric("Taux US   10 ans", f"{us10y_DATA.Close[-1] :.3f}", f"{diff_us10y:.2} ({100*r_us10y :.2f}%)")
 
- 
 
 # Block  4 : Premir élément volatilité """VIX"""
 volatilité = yf.Ticker('^VIX') # Obtenir les données du ticker 
@@ -150,9 +176,6 @@ heure = datetime.datetime.now()
 #heure_actuelle = heure.strftime("%H:%M:%S")
 st.sidebar.time_input('Heure des informations actuelles :', heure)
 
-
-#st.write(date,text = 'green')  
-#st.write (time, text ='green')
 
 # Récupération des données (tickers data) (Création d'un portefeuille - Liste no 1)
 
@@ -235,39 +258,39 @@ ax4.grid(color='grey', linestyle='--', linewidth=0.5)
 
 # Section de la sélection de la période à afficher des graphiques
 # Fonctions pour déterminer le choix de la période affichée
-if selection == '5 jours':
+if selection == '5 jours':                                                # sélection 5 jours
     ax1.plot(tickerDf1.Close[-5:-1], color = 'red',  label = selection)
     ax2.plot(tickerDf2.Close[-5:-1], color = 'green',label = selection)
     ax3.plot(tickerDf3.Close[-5:-1], color = 'cyan', label = selection) 
     ax4.plot(tickerDf4.Close[-5:-1], color = 'blue', label = selection)
     
-elif selection == '1 mois':
-    ax1.plot(tickerDf1.Close[-30:-1], color = 'blue', label = selection)
+elif selection == '1 mois':                                               # sélection 1 mois
+    ax1.plot(tickerDf1.Close[-30:-1], color = 'blue', label = selection)  
     ax2.plot(tickerDf2.Close[-30:-1], color = 'blue', label = selection)
     ax3.plot(tickerDf3.Close[-30:-1], color = 'green',label = selection)
     ax4.plot(tickerDf4.Close[-30:-1], color = 'black',label = selection)
 
-elif selection == '6 mois':
-    ax1.plot(tickerDf1.Close[-180:-1], color = 'green', label = selection)
+elif selection == '6 mois':                                                # sélection 6 mois
+    ax1.plot(tickerDf1.Close[-180:-1], color = 'green', label = selection) 
     ax2.plot(tickerDf2.Close[-180:-1], color = 'black', label = selection)
     ax3.plot(tickerDf3.Close[-180:-1], color = 'red',   label = selection)
     ax4.plot(tickerDf4.Close[-180:-1], color = 'blue',  label = selection)
 
 
-elif selection == '1 an':
+elif selection == '1 an':                                                   # sélection 1 an
     ax1.plot(tickerDf1.Close[-252:-1], color = 'cyan',  label = selection)
     ax2.plot(tickerDf2.Close[-252:-1], color = 'black', label = selection)
     ax3.plot(tickerDf3.Close[-252:-1], color = 'blue',  label = selection)
     ax4.plot(tickerDf4.Close[-252:-1], color = 'red',   label = selection)
 
 
-elif selection == '3 ans':
+elif selection == '3 ans':                                                   # sélection 3 ans
     ax1.plot(tickerDf1.Close[-3*252:-1], color = 'red',  label = selection)
     ax2.plot(tickerDf2.Close[-3*252:-1], color = 'cyan', label = selection)
     ax3.plot(tickerDf3.Close[-3*252:-1], color = 'black',label = selection)
     ax4.plot(tickerDf4.Close[-3*252:-1], color = 'blue', label = selection)
 
-elif selection == '5 ans':
+elif selection == '5 ans':                                                   # sélection 5 ans
     ax1.plot(tickerDf1.Close[-5*252:-1], color = 'cyan', label = selection)
     ax2.plot(tickerDf2.Close[-5*252:-1], color = 'red',  label = selection)
     ax3.plot(tickerDf3.Close[-5*252:-1], color = 'black',label = selection)
@@ -307,7 +330,7 @@ diff_tickerDf1 = tickerDf1.Close[-1] - tickerDf1.Close[-2]
 r_tickerDf1 = diff_tickerDf1/tickerDf1.Close[-2]
 c1.metric(f"{tickerSymbol1}", f"{tickerDf1.Close[-1] :.2f} $", f"{diff_tickerDf1:.2f} ({100*r_tickerDf1 :.2f}%)")
 
-sector= tickerData1.info["sector"] # Ici on va cercher le secteur de l'entreprise
+sector= tickerData1.info["sector"] # Ici on indique le secteur de l'entreprise
 c1.metric('Secteur', sector)
 
 Day_High = tickerData1.info ["dayHigh"]
@@ -315,22 +338,22 @@ Day_Low  = tickerData1.info ["dayLow"]
 c2.metric ("Day High", f"{Day_High:.2f} $")
 c2.metric ("Day Low", f"{Day_Low:.2f} $")
 
-recommandation1 = tickerData1.info["recommendationKey"]  # Ici on va chercher la recommandation des analystes
+recommandation1 = tickerData1.info["recommendationKey"]  # Ici on indique la recommandation des analystes
 c3.metric("Recommandation", recommandation1.title())
 
-Prix_cible = tickerData1.info["targetMeanPrice"] # Ici on va chercher le cours cible
+Prix_cible = tickerData1.info["targetMeanPrice"]         # Ici on va chercher le cours cible
 c3.metric("Prix cible ", f'{Prix_cible:.2f} $')
 
-Beta = tickerData1.info["beta"] # Ici on va chercher le beta de l'entreprise
+Beta = tickerData1.info["beta"]                          # Ici on va chercher le beta de l'entreprise
 c4.metric("beta ", round(Beta,2))
 
-CB1 = tickerData1.info["forwardPE"] # Ici on va chercher le ratio cours bénéfice
+CB1 = tickerData1.info["forwardPE"]                      # Ici on va chercher le ratio cours bénéfice
 c4.metric("C/B",  f'{CB1:.2f}' )
 
-marge = tickerData1.info["profitMargins"] # Ici on va chercher le Pourcentage de la marge brute
+marge = tickerData1.info["profitMargins"]                # Ici on va chercher le Pourcentage de la marge brute
 c5.metric("Marge brute ", f"{round(marge*100, 2)}%" )
 
-ROA = tickerData1.info["returnOnAssets"] # Ici on va chercher le pourcentage du "Return Of Asset"
+ROA = tickerData1.info["returnOnAssets"]                 # Ici on va chercher le pourcentage du "Return Of Asset"
 c5.metric("ROA ", f"{round(ROA*100, 2)}%" )
 
 
@@ -354,10 +377,14 @@ st.write("_______")
 st.write(" ### Détenteurs institutionnels majeurs :")
 
 tickerData1.institutional_holders # Ici les principaux détenteurs de l'actionnariat de l'enteprise
+st.write("_______")
+
+st.write(" ### Site Web :")
+tickerData1.info ["website"]
 
 st.write("_______")
 
-# (Optionel) pour autre information général sur Yahoo finance employer  tickerData1.info 
+# (Optionel) pour autres informations général sur Yahoo finance employer  tickerData1.info 
 # tickerData1.info
 
 
@@ -373,29 +400,3 @@ st.write("_______")
            #  fontsize='medium', verticalalignment='top', fontfamily='serif',
             # bbox=dict(facecolor='0.7', edgecolor='none', pad=3.0))
 # plt.show()   
-
-# """"nouveaux modules à être installés et importés par moi"""" To see later how to work ?
-
-# import bond_pricing as bp
-
-# import investpy as inv
-
-# import matplotlib.transforms as mtransforms
-
-
-# x1 = np.linspace (start_date =  datetime.date(2000, 1, 1), end_date =  datetime.date.today())
-# ax1.plot ( x1 )
-
-#fig, ax = plt.subplots()
-#ax.plot('date', 'adj_close', data = data[:300],color ="green")
-    
-#ax.xaxis.set_major_locator(years) 
-#ax.format_ydata = lambda x: '$% 1.2f' % x
-#ax.grid(True)
-   
-# fig.autofmt_xdate()
-   
-# fig.suptitle('matplotlib.figure.Figure.autofmt_xdate() \
-# function Example\n\n', fontweight ="bold")
-  
-# plt.show()
